@@ -17,14 +17,14 @@ function createGraph(){
         .size([width, height]) // chart layout size
         .padding(1) // padding between circles
         .radius(function(d) {
-            return 20 + (sizeofRadius(d) * 30); // radius for each circle
+            return 20 + (sizeofRadius(d) * 60); // radius for each circle
         });
     
     //SVG Congfig    
     var svg = d3.select("#chart").append("svg")
         .attr("width", width)
         .attr("height", height)
-        .attr("class","buble");
+        .attr("class","bubble");
 
     // tooltip config
     var tooltip = d3.select("body")
@@ -55,6 +55,16 @@ function createGraph(){
                 })
                 .style('fill', function(d){
                     return color(d.symbol);
+                })
+                .on("mouseover", function(d){
+                    tooltip.text(d.name + ": $" + d.price);
+                    tooltip.style("visibility", "visible");
+                })
+                .on("mousemove", function(){
+                    return tooltip.style("top", (d3.event.pageY-10)+"px").style("left", (d3.event.pageX+10)+"px");
+                })
+                .on("mouseout", function(){
+                    return tooltip.style("visibility", "hidden");
                 });
 
             node.append('text')

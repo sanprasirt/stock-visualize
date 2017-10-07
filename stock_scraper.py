@@ -8,13 +8,14 @@ def get_data():
     data = r.text
     results = {'children':[]}
     for line in csv.DictReader(data.splitlines(), skipinitialspace=True):
-        results['children'].append({
-            'name': line['Name'],
-            'symbol': line['Symbol'],
-            'price': line['lastsale'],
-            'net_change': line['netchange'],
-            'percent_change': line['pctchange'],
-            'volume': line['share_volume'],
-            'value': line['Nasdaq100_points']
-        })
+        if float(line['Nasdaq100_points']) > .01:
+            results['children'].append({
+                'name': line['Name'],
+                'symbol': line['Symbol'],
+                'price': line['lastsale'],
+                'net_change': line['netchange'],
+                'percent_change': line['pctchange'],
+                'volume': line['share_volume'],
+                'value': line['Nasdaq100_points']
+            })
     return results
